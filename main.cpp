@@ -115,7 +115,7 @@ const char mark[] = {',', ';', '.', '<', ':', '>', '-', '+'};
 void createPasscodeFile()
 {
     // 创建密钥文件
-    fstream file1("三点密码随机密钥.txt", ios::out);
+    fstream file1("three_point_password.txt", ios::out);
     if (file1.is_open())
     {
         // 写入文件，每个数字以空格隔开
@@ -138,30 +138,29 @@ void createPasscodeFile()
         }
         file1.close();
         // 写入完毕，输出文件位置
-        filesystem::path path = filesystem::current_path();
-        cout << "随机密钥已保存至：" << path << endl;
+        cout << "随机密钥\"three_point_password.txt\"已创建" << endl;
+        cout << "目录为：" << filesystem::current_path() << endl;
         cout << "请提前发送给解密方" << endl;
     }
     else
     {
         // 写入失败
-        cout << "ERROR:文件生成失败，请重试" << endl;
+        cout << "ERROR:\"three_point_password.txt\"文件生成失败，请重试" << endl;
         abort();
     }
 }
 
 void input()
 {
-    fstream file("三点密码随机密钥.txt", ios::in);
+    fstream file("three_point_password.txt", ios::in);
     for (int i = 0; i < passcode_length; i++)
     {
         int temp;
         file >> temp;
         passcode.push(temp);
     }
-    filesystem::path path = filesystem::current_path();
-    cout << "密钥文件读取成功" << endl;
-    cout << "目录为：" << path << endl;
+    cout << "密钥文件\"three_point_password.txt\"读取成功" << endl;
+    cout << "目录为：" << filesystem::current_path() << endl;
 }
 
 int IfPosInLetter(char temp)
@@ -249,7 +248,7 @@ int main()
     cout << "当前程序版本号：v1.0.0" << endl;
     cout << "https://github.com/BlazeSnow/three-point-password" << endl
          << endl;
-    fstream file("三点密码随机密钥.txt", ios::in);
+    fstream file("three_point_password.txt", ios::in);
     if (file.is_open())
     {
         // 如果读到了密钥文件

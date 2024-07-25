@@ -1,3 +1,6 @@
+// Copyright (C) 2024 BlazeSnow
+// 保留所有权利
+// 本程序以GNU General Public License v3.0的条款发布
 #include "iostream"
 #include "random"
 #include "fstream"
@@ -240,6 +243,12 @@ void decode()
 
 int main()
 {
+    system("chcp 65001");
+    cout << "Copyright (C) 2024 BlazeSnow.保留所有权利。" << endl;
+    cout << "本程序以GNU General Public License v3.0的条款发布。" << endl;
+    cout << "当前程序版本号：v1.0.0" << endl;
+    cout << "https://github.com/BlazeSnow/three-point-password" << endl
+         << endl;
     fstream file("三点密码随机密钥.txt", ios::in);
     if (file.is_open())
     {

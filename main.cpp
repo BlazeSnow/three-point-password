@@ -293,18 +293,19 @@ int main()
             // 进行编码
             cout << "编码的结果为:" << endl;
             encode();
+            cout << endl;
         }
         else if (NumOfLetter <= NumOfNumber)
         {
             // 进行解码
             cout << "解码的结果为:" << endl;
             decode();
+            cout << endl;
         }
         else
         {
             // 其他情况，终止程序
             cout << "ERROR:输入内容不符合规范" << endl;
-            abort();
         }
     }
     else
@@ -313,5 +314,6 @@ int main()
         file.close();
         createPasscodeFile();
     }
+    system("pause");
     return 0;
 }

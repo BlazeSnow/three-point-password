@@ -157,7 +157,7 @@ int main() {
   cout << "Copyright (C) 2024-2025 BlazeSnow. 保留所有权利。" << endl;
   cout << "当前程序版本号：v1.0.2" << endl;
   cout << "https://github.com/BlazeSnow/three-point-password" << endl << endl;
-  fstream file("three_point_password.txt", ios::in);
+  fstream file("three-point-password.txt", ios::in);
   if (file.is_open()) {
     // 如果读到了密钥文件
     file.close();

@@ -47,7 +47,7 @@ const char mark[] = {',', ';', '.', '<', ':', '>', '-', '+'};
 
 void createPasscodeFile() {
   // 创建密钥文件
-  fstream file1("three_point_password.txt", ios::out);
+  fstream file1("three-point-password.txt", ios::out);
   if (file1.is_open()) {
     // 写入文件，每个数字以空格隔开
     for (int i = 0; i < passcode_length; i++) {
@@ -65,24 +65,24 @@ void createPasscodeFile() {
     }
     file1.close();
     // 写入完毕，输出文件位置
-    cout << "随机密钥\"three_point_password.txt\"已创建" << endl;
+    cout << "随机密钥\"three-point-password.txt\"已创建" << endl;
     cout << "目录为：" << filesystem::current_path() << endl;
     cout << "请提前发送给解密方" << endl;
   } else {
     // 写入失败
-    cout << "ERROR:\"three_point_password.txt\"文件生成失败，请重试" << endl;
+    cout << "ERROR:\"three-point-password.txt\"文件生成失败，请重试" << endl;
     abort();
   }
 }
 
 void input() {
-  fstream file("three_point_password.txt", ios::in);
+  fstream file("three-point-password.txt", ios::in);
   for (int i = 0; i < passcode_length; i++) {
     int temp;
     file >> temp;
     passcode.push(temp);
   }
-  cout << "密钥文件\"three_point_password.txt\"读取成功" << endl;
+  cout << "密钥文件\"three-point-password.txt\"读取成功" << endl;
   cout << "目录为：" << filesystem::current_path() << endl;
 }
 
@@ -152,10 +152,10 @@ void decode() {
 }
 
 int main() {
-  system("chcp 54936");
-  cout << "Copyright (C) 2024 BlazeSnow.保留所有权利。" << endl;
-  cout << "本程序以GNU General Public License v3.0的条款发布。" << endl;
-  cout << "当前程序版本号：v1.0.1" << endl;
+  system("chcp 65001");
+  system("cls");
+  cout << "Copyright (C) 2024-2025 BlazeSnow. 保留所有权利。" << endl;
+  cout << "当前程序版本号：v1.0.2" << endl;
   cout << "https://github.com/BlazeSnow/three-point-password" << endl << endl;
   fstream file("three_point_password.txt", ios::in);
   if (file.is_open()) {

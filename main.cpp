@@ -163,7 +163,7 @@ int main() {
     file.close();
     input();
     // 统计数字及字母数量，分辨编解码
-    cout << "请输入需要编解码的内容：" << endl;
+    cout << endl << "请输入需要编解码的内容：" << endl;
     // 字母数量
     int NumOfLetter = 0;
     // 数字数量
@@ -189,14 +189,14 @@ int main() {
     // 判断编码解码并运行
     if (NumOfLetter > NumOfNumber && NumOfNumber == 0) {
       // 进行编码
-      cout << "编码的结果为:" << endl;
+      cout << endl << "编码的结果为:" << endl;
       encode();
-      cout << endl;
+      cout << endl << endl;
     } else if (NumOfLetter <= NumOfNumber) {
       // 进行解码
-      cout << "解码的结果为:" << endl;
+      cout << endl << "解码的结果为:" << endl;
       decode();
-      cout << endl;
+      cout << endl << endl;
     } else {
       // 其他情况，终止程序
       cout << "ERROR:输入内容不符合规范" << endl;

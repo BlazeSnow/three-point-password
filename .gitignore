@@ -1,5 +1,5 @@
-.vs/
-
+.idea/
+cmake-build-debug/
 three-point-password.exe
 three-point-password.txt
 three-point-password.7z

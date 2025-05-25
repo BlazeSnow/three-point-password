@@ -174,7 +174,7 @@ int main() {
     printf("输入使用此程序的方法：");
     int ChooseMode = -1;
     while (true) {
-        ChooseMode = (int) getchar();
+        ChooseMode = getchar() - '0';
         if (ChooseMode == 0 || ChooseMode == 1 || ChooseMode == 2) {
             break;
         } else {

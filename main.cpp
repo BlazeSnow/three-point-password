@@ -89,6 +89,7 @@ void input(int ChooseMode) {
             file >> temp;
             passcode.push(temp);
         }
+        file.close();
     } else if (ChooseMode == NoPasswordFile) {
         for (int i = 0; i < passcode_length; i++) {
             passcode.push(0);
@@ -185,6 +186,7 @@ int main() {
     if (ChooseMode == WithPasswordFile || ChooseMode == NoPasswordFile) {
         fstream file("three-point-password.txt", ios::in);
         if (file.is_open()) {
+            file.close();
             input(ChooseMode);
             // 统计数字及字母数量，分辨编解码
             printf("\n请输入需要编解码的内容：\n");

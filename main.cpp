@@ -13,6 +13,8 @@ using namespace std;
 const filesystem::path CurrentPath = filesystem::current_path();
 const string CurrentPathString = CurrentPath.string();
 
+enum { CreatePasswordFile, WithPasswordFile, NoPasswordFile };
+
 // 字符串相互对应密码结构体
 struct Code {
     // 字母
@@ -79,12 +81,18 @@ void createPasscodeFile() {
     }
 }
 
-void input() {
-    fstream file("three-point-password.txt", ios::in);
-    for (int i = 0; i < passcode_length; i++) {
-        int temp;
-        file >> temp;
-        passcode.push(temp);
+void input(int ChooseMode) {
+    if (ChooseMode == WithPasswordFile) {
+        fstream file("three-point-password.txt", ios::in);
+        for (int i = 0; i < passcode_length; i++) {
+            int temp;
+            file >> temp;
+            passcode.push(temp);
+        }
+    } else if (ChooseMode == NoPasswordFile) {
+        for (int i = 0; i < passcode_length; i++) {
+            passcode.push(0);
+        }
     }
     printf("密钥文件\"three-point-password.txt\"读取成功\n");
     printf("目录为：%s\n", CurrentPathString.c_str());
@@ -161,53 +169,66 @@ int main() {
     printf("Copyright (C) 2024-2025 BlazeSnow. 保留所有权利。\n");
     printf("当前程序版本号：v1.0.3\n");
     printf("https://github.com/BlazeSnow/three-point-password\n\n");
-    fstream file("three-point-password.txt", ios::in);
-    if (file.is_open()) {
-        // 如果读到了密钥文件
-        file.close();
-        input();
-        // 统计数字及字母数量，分辨编解码
-        printf("\n请输入需要编解码的内容：\n");
-        // 字母数量
-        int NumOfLetter = 0;
-        // 数字数量
-        int NumOfNumber = 0;
-        while (true) {
-            // 从输入读取
-            char temp = (char) cin.get();
-            if (temp == '\n') {
-                break;
-            } else if (IfPosInLetter(temp) != -1) {
-                // 发现字母
-                NumOfLetter++;
-                inputMessage.push(temp);
-            } else if ((('0' <= temp) && (temp <= '9'))) {
-                // 发现数字
-                NumOfNumber++;
-                inputMessage.push(temp);
-            } else if (IfPosInMark(temp) != -1) {
-                // 发现字符
-                inputMessage.push(temp);
-            }
-        }
-        // 判断编码解码并运行
-        if (NumOfLetter > NumOfNumber && NumOfNumber == 0) {
-            // 进行编码
-            printf("\n编码的结果为：\n");
-            encode();
-            printf("\n\n");
-        } else if (NumOfLetter <= NumOfNumber) {
-            // 进行解码
-            printf("\n解码的结果为：\n");
-            decode();
-            printf("\n\n");
+
+    printf("（0-生成特殊密钥；1-使用特殊密钥转换；2-无需特殊密钥转换）\n");
+    printf("输入使用此程序的方法：");
+    int ChooseMode = -1;
+    while (true) {
+        ChooseMode = (int) getchar();
+        if (ChooseMode == 0 || ChooseMode == 1 || ChooseMode == 2) {
+            break;
         } else {
-            // 其他情况，终止程序
-            fprintf(stderr, "错误：输入内容不符合规范\n");
+            fprintf(stderr, "错误：输入内容不合法。\n");
         }
-    } else {
-        // 没读到密钥文件
-        file.close();
+    }
+
+    if (ChooseMode == WithPasswordFile || ChooseMode == NoPasswordFile) {
+        fstream file("three-point-password.txt", ios::in);
+        if (file.is_open()) {
+            input(ChooseMode);
+            // 统计数字及字母数量，分辨编解码
+            printf("\n请输入需要编解码的内容：\n");
+            // 字母数量
+            int NumOfLetter = 0;
+            // 数字数量
+            int NumOfNumber = 0;
+            while (true) {
+                // 从输入读取
+                char temp = (char) cin.get();
+                if (temp == '\n') {
+                    break;
+                } else if (IfPosInLetter(temp) != -1) {
+                    // 发现字母
+                    NumOfLetter++;
+                    inputMessage.push(temp);
+                } else if ((('0' <= temp) && (temp <= '9'))) {
+                    // 发现数字
+                    NumOfNumber++;
+                    inputMessage.push(temp);
+                } else if (IfPosInMark(temp) != -1) {
+                    // 发现字符
+                    inputMessage.push(temp);
+                }
+            }
+            // 判断编码解码并运行
+            if (NumOfLetter > NumOfNumber && NumOfNumber == 0) {
+                // 进行编码
+                printf("\n编码的结果为：\n");
+                encode();
+                printf("\n\n");
+            } else if (NumOfLetter <= NumOfNumber) {
+                // 进行解码
+                printf("\n解码的结果为：\n");
+                decode();
+                printf("\n\n");
+            } else {
+                // 其他情况，终止程序
+                fprintf(stderr, "错误：密钥文件\"three-point-password.txt\"读取失败\n");
+            }
+        } else {
+            fprintf(stderr, "错误：文件\n");
+        }
+    } else if (ChooseMode == CreatePasswordFile) {
         createPasscodeFile();
     }
     system("pause");

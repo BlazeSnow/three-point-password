@@ -156,7 +156,7 @@ int main() {
     system("chcp 65001");
     system("cls");
     cout << "Copyright (C) 2024-2025 BlazeSnow. 保留所有权利。" << endl;
-    cout << "当前程序版本号：v1.0.2" << endl;
+    cout << "当前程序版本号：v1.0.3" << endl;
     cout << "https://github.com/BlazeSnow/three-point-password" << endl << endl;
     fstream file("three-point-password.txt", ios::in);
     if (file.is_open()) {

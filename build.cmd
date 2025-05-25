@@ -1,1 +1,0 @@
-clang.exe -std=c++23 main.cpp -o three-point-password.exe

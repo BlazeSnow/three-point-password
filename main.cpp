@@ -10,6 +10,9 @@
 
 using namespace std;
 
+const filesystem::path CurrentPath = filesystem::current_path();
+const string CurrentPathString = CurrentPath.string();
+
 // 字符串相互对应密码结构体
 struct Code {
     // 字母
@@ -66,12 +69,12 @@ void createPasscodeFile() {
         }
         file1.close();
         // 写入完毕，输出文件位置
-        cout << "随机密钥\"three-point-password.txt\"已创建" << endl;
-        cout << "目录为：" << filesystem::current_path() << endl;
-        cout << "请提前发送给解密方" << endl;
+        printf("随机密钥文件\"three-point-password.txt\"已创建\n");
+        printf("目录为：%s\n", CurrentPathString.c_str());
+        printf("请提前发送给解密方\n");
     } else {
         // 写入失败
-        cout << "ERROR:\"three-point-password.txt\"文件生成失败，请重试" << endl;
+        fprintf(stderr, "错误：\"three-point-password.txt\"文件生成失败，请重试\n");
         abort();
     }
 }
@@ -83,8 +86,8 @@ void input() {
         file >> temp;
         passcode.push(temp);
     }
-    cout << "密钥文件\"three-point-password.txt\"读取成功" << endl;
-    cout << "目录为：" << filesystem::current_path() << endl;
+    printf("密钥文件\"three-point-password.txt\"读取成功\n");
+    printf("目录为：%s\n", CurrentPathString.c_str());
 }
 
 int IfPosInLetter(char temp) {
@@ -115,11 +118,11 @@ void encode() {
         for (auto &i: code) {
             if (i.letter == temp_letter) {
                 // 打印数字
-                cout << (i.number + passcode.front()) % 10;
+                printf("%d", (i.number + passcode.front()) % 10);
                 // 密码数组删除第一个
                 passcode.pop();
                 // 打印字符
-                cout << mark[(i.mark + passcode.front()) % (int) sizeof(mark)];
+                printf("%c", mark[(i.mark + passcode.front()) % (int) sizeof(mark)]);
                 // 密码数组删除第一个
                 passcode.pop();
                 // 结束查询
@@ -146,7 +149,7 @@ void decode() {
         // 输出原字母
         for (auto &i: code) {
             if (temp_number == i.number && temp_mark == i.mark) {
-                cout << i.letter;
+                printf("%c", i.letter);
             }
         }
     }
@@ -155,16 +158,16 @@ void decode() {
 int main() {
     system("chcp 65001");
     system("cls");
-    cout << "Copyright (C) 2024-2025 BlazeSnow. 保留所有权利。" << endl;
-    cout << "当前程序版本号：v1.0.3" << endl;
-    cout << "https://github.com/BlazeSnow/three-point-password" << endl << endl;
+    printf("Copyright (C) 2024-2025 BlazeSnow. 保留所有权利。\n");
+    printf("当前程序版本号：v1.0.3\n");
+    printf("https://github.com/BlazeSnow/three-point-password\n\n");
     fstream file("three-point-password.txt", ios::in);
     if (file.is_open()) {
         // 如果读到了密钥文件
         file.close();
         input();
         // 统计数字及字母数量，分辨编解码
-        cout << endl << "请输入需要编解码的内容：" << endl;
+        printf("\n请输入需要编解码的内容：\n");
         // 字母数量
         int NumOfLetter = 0;
         // 数字数量
@@ -190,17 +193,17 @@ int main() {
         // 判断编码解码并运行
         if (NumOfLetter > NumOfNumber && NumOfNumber == 0) {
             // 进行编码
-            cout << endl << "编码的结果为:" << endl;
+            printf("\n编码的结果为：\n");
             encode();
-            cout << endl << endl;
+            printf("\n\n");
         } else if (NumOfLetter <= NumOfNumber) {
             // 进行解码
-            cout << endl << "解码的结果为:" << endl;
+            printf("\n解码的结果为：\n");
             decode();
-            cout << endl << endl;
+            printf("\n\n");
         } else {
             // 其他情况，终止程序
-            cout << "ERROR:输入内容不符合规范" << endl;
+            fprintf(stderr, "错误：输入内容不符合规范\n");
         }
     } else {
         // 没读到密钥文件

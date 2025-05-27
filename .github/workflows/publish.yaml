@@ -1,0 +1,46 @@
+name: Build and Release Windows Executable
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Clang
+        run: choco install llvm -y
+
+      - name: Compile with Clang
+        run: clang.exe -O2 -DNDEBUG -static -std=c++23 main.cpp -o three-point-password.exe
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: three-point-password
+          path: ./three-point-password.exe
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: three-point-password
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "three-point-password.exe"
+          tag: ${{ inputs.tag }}

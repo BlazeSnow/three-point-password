@@ -84,7 +84,7 @@ void createPasscodeFile() {
     }
 }
 
-void input() {
+void configThePasscode() {
     if (ChooseMode == WithPasswordFile) {
         fstream file("three-point-password.txt", ios::in);
         for (int i = 0; i < passcode_length; i++) {
@@ -92,14 +92,13 @@ void input() {
             file >> temp;
             passcode.push(temp);
         }
+        printf("密钥文件\"three-point-password.txt\"读取成功\n");
         file.close();
     } else if (ChooseMode == NoPasswordFile) {
         for (int i = 0; i < passcode_length; i++) {
             passcode.push(0);
         }
     }
-    printf("密钥文件\"three-point-password.txt\"读取成功\n");
-    printf("目录为：%s\n", CurrentPathString.c_str());
 }
 
 int IfPosInLetter(char temp) {
@@ -167,6 +166,49 @@ void decode() {
     }
 }
 
+void countAndTransport() {
+    // 统计数字及字母数量，分辨编解码
+    printf("\n请输入需要编解码的内容：\n");
+    // 字母数量
+    int NumOfLetter = 0;
+    // 数字数量
+    int NumOfNumber = 0;
+    while (true) {
+        // 从输入读取
+        char temp = (char) cin.get();
+        if (temp == '\n') {
+            break;
+        } else if (IfPosInLetter(temp) != -1) {
+            // 发现字母
+            NumOfLetter++;
+            inputMessage.push(temp);
+        } else if ((('0' <= temp) && (temp <= '9'))) {
+            // 发现数字
+            NumOfNumber++;
+            inputMessage.push(temp);
+        } else if (IfPosInMark(temp) != -1) {
+            // 发现字符
+            inputMessage.push(temp);
+        }
+    }
+    // 判断编码解码并运行
+    if (NumOfLetter > NumOfNumber && NumOfNumber == 0) {
+        // 进行编码
+        printf("\n编码的结果为：\n");
+        encode();
+        printf("\n\n");
+    } else if (NumOfLetter <= NumOfNumber) {
+        // 进行解码
+        printf("\n解码的结果为：\n");
+        decode();
+        printf("\n\n");
+    } else {
+        // 其他情况，终止程序
+        fprintf(stderr, "错误：密钥文件\"three-point-password.txt\"读取失败\n");
+        fprintf(stderr, "目录为：%s\n", CurrentPathString.c_str());
+    }
+}
+
 int main() {
     system("chcp 65001");
     system("cls");
@@ -190,55 +232,19 @@ int main() {
         fprintf(stderr, "错误：输入内容不合法。\n");
     }
 
-    if (ChooseMode == WithPasswordFile || ChooseMode == NoPasswordFile) {
+    if (ChooseMode == WithPasswordFile) {
         fstream file("three-point-password.txt", ios::in);
         if (file.is_open()) {
             file.close();
-            input();
-            // 统计数字及字母数量，分辨编解码
-            printf("\n请输入需要编解码的内容：\n");
-            // 字母数量
-            int NumOfLetter = 0;
-            // 数字数量
-            int NumOfNumber = 0;
-            while (true) {
-                // 从输入读取
-                char temp = (char) cin.get();
-                if (temp == '\n') {
-                    break;
-                } else if (IfPosInLetter(temp) != -1) {
-                    // 发现字母
-                    NumOfLetter++;
-                    inputMessage.push(temp);
-                } else if ((('0' <= temp) && (temp <= '9'))) {
-                    // 发现数字
-                    NumOfNumber++;
-                    inputMessage.push(temp);
-                } else if (IfPosInMark(temp) != -1) {
-                    // 发现字符
-                    inputMessage.push(temp);
-                }
-            }
-            // 判断编码解码并运行
-            if (NumOfLetter > NumOfNumber && NumOfNumber == 0) {
-                // 进行编码
-                printf("\n编码的结果为：\n");
-                encode();
-                printf("\n\n");
-            } else if (NumOfLetter <= NumOfNumber) {
-                // 进行解码
-                printf("\n解码的结果为：\n");
-                decode();
-                printf("\n\n");
-            } else {
-                // 其他情况，终止程序
-                fprintf(stderr, "错误：密钥文件\"three-point-password.txt\"读取失败\n");
-                fprintf(stderr, "目录为：%s\n", CurrentPathString.c_str());
-            }
+            configThePasscode();
+            countAndTransport();
         } else {
             fprintf(stderr, "错误：密钥文件\"three-point-password.txt\"读取失败\n");
             fprintf(stderr, "目录为：%s\n", CurrentPathString.c_str());
         }
+    } else if (ChooseMode == NoPasswordFile) {
+        configThePasscode();
+        countAndTransport();
     } else if (ChooseMode == CreatePasswordFile) {
         createPasscodeFile();
     }

@@ -15,6 +15,8 @@ const string CurrentPathString = CurrentPath.string();
 
 enum { CreatePasswordFile, WithPasswordFile, NoPasswordFile };
 
+int ChooseMode = -1;
+
 // 字符串相互对应密码结构体
 struct Code {
     // 字母
@@ -81,7 +83,7 @@ void createPasscodeFile() {
     }
 }
 
-void input(int ChooseMode) {
+void input() {
     if (ChooseMode == WithPasswordFile) {
         fstream file("three-point-password.txt", ios::in);
         for (int i = 0; i < passcode_length; i++) {
@@ -173,7 +175,7 @@ int main() {
 
     printf("（0-生成特殊密钥；1-使用特殊密钥转换；2-无需特殊密钥转换）\n");
     printf("输入使用此程序的方法：");
-    int ChooseMode = -1;
+
     while (true) {
         ChooseMode = (int) getchar() - '0';
         if (ChooseMode == 0 || ChooseMode == 1 || ChooseMode == 2) {
@@ -188,7 +190,7 @@ int main() {
         fstream file("three-point-password.txt", ios::in);
         if (file.is_open()) {
             file.close();
-            input(ChooseMode);
+            input();
             // 统计数字及字母数量，分辨编解码
             printf("\n请输入需要编解码的内容：\n");
             // 字母数量

@@ -79,6 +79,7 @@ void createPasscodeFile() {
     } else {
         // 写入失败
         fprintf(stderr, "错误：\"three-point-password.txt\"文件生成失败，请重试\n");
+        fprintf(stderr, "目录为：%s\n", CurrentPathString.c_str());
         abort();
     }
 }
@@ -177,13 +178,16 @@ int main() {
     printf("输入使用此程序的方法：");
 
     while (true) {
-        ChooseMode = (int) getchar() - '0';
+        ChooseMode = getchar() - '0';
+        int temp;
         if (ChooseMode == 0 || ChooseMode == 1 || ChooseMode == 2) {
-            cin.ignore();
+            while ((temp = getchar()) != '\n' && temp != EOF) {
+            };
             break;
-        } else {
-            fprintf(stderr, "错误：输入内容不合法。\n");
         }
+        while ((temp = getchar()) != '\n' && temp != EOF) {
+        };
+        fprintf(stderr, "错误：输入内容不合法。\n");
     }
 
     if (ChooseMode == WithPasswordFile || ChooseMode == NoPasswordFile) {
@@ -229,9 +233,11 @@ int main() {
             } else {
                 // 其他情况，终止程序
                 fprintf(stderr, "错误：密钥文件\"three-point-password.txt\"读取失败\n");
+                fprintf(stderr, "目录为：%s\n", CurrentPathString.c_str());
             }
         } else {
-            fprintf(stderr, "错误：文件\n");
+            fprintf(stderr, "错误：密钥文件\"three-point-password.txt\"读取失败\n");
+            fprintf(stderr, "目录为：%s\n", CurrentPathString.c_str());
         }
     } else if (ChooseMode == CreatePasswordFile) {
         createPasscodeFile();

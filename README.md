@@ -1,5 +1,7 @@
 # 三点密码
 
+> 此项目已迁移至 [CppWorkspace](https://github.com/BlazeSnow/CppWorkspace/tree/main/ThreePointPassword)
+
 1. 三点密码是一种字符替换式密码
 2. 将密钥文件发送给另一方，并保存在程序的同一目录下，即可保证双方加解密算法相同
 3. 支持的范围：英文大小写字母，英文（半角）符号，空格

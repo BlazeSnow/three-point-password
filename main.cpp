@@ -27,7 +27,6 @@ void enterToContinue() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF) {
     }
-    getchar();
 }
 
 const filesystem::path CurrentPath = filesystem::current_path();

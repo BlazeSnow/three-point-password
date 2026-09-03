@@ -228,9 +228,8 @@ int main() {
 #endif
 
     clearConsole();
-    printf("Copyright (C) 2024-2026 BlazeSnow. 保留所有权利。\n");
-    printf("当前程序版本号：v1.0.4\n");
-    printf("https://github.com/BlazeSnow/CppWorkspace\n\n");
+    printf("Copyright (C) 2024-2026 BlazeSnow.\n");
+    printf("https://github.com/BlazeSnow/three-point-password\n\n");
 
     printf("（0-生成特殊密钥；1-使用特殊密钥转换；2-无需特殊密钥转换）\n");
     printf("输入使用此程序的方法：");

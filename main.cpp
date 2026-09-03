@@ -28,16 +28,17 @@ struct Code {
 };
 
 const vector<Code> code = {
-    {'a', 0, 0}, {'b', 1, 0}, {'c', 2, 0}, {'d', 3, 0}, {'e', 4, 0},  {'f', 5, 0}, {'g', 6, 0}, {'h', 7, 0},
-    {'i', 8, 0}, {'j', 9, 0}, {'k', 0, 1}, {'l', 1, 1}, {'m', 2, 1},  {'n', 3, 1}, {'o', 4, 1}, {'p', 5, 1},
-    {'q', 6, 1}, {'r', 7, 1}, {'s', 8, 1}, {'t', 9, 1}, {'u', 0, 2},  {'v', 1, 2}, {'w', 2, 2}, {'x', 3, 2},
-    {'y', 4, 2}, {'z', 5, 2}, {' ', 6, 2}, {'A', 7, 2}, {'B', 8, 2},  {'C', 9, 2}, {'D', 0, 3}, {'E', 1, 3},
-    {'F', 2, 3}, {'G', 3, 3}, {'H', 4, 3}, {'I', 5, 3}, {'J', 6, 3},  {'K', 7, 3}, {'L', 8, 3}, {'M', 9, 3},
-    {'N', 0, 4}, {'O', 1, 4}, {'P', 2, 4}, {'Q', 3, 4}, {'R', 4, 4},  {'S', 5, 4}, {'T', 6, 4}, {'U', 7, 4},
-    {'V', 8, 4}, {'W', 9, 4}, {'X', 0, 5}, {'Y', 1, 5}, {'Z', 2, 5},  {',', 3, 5}, {'!', 4, 5}, {'@', 5, 5},
-    {'#', 6, 5}, {'$', 7, 5}, {'%', 8, 5}, {'^', 9, 5}, {'&', 0, 6},  {'*', 1, 6}, {'(', 2, 6}, {')', 3, 6},
-    {'<', 4, 6}, {'>', 5, 6}, {'.', 6, 6}, {'?', 7, 6}, {'/', 8, 6},  {';', 9, 6}, {':', 0, 7}, {'\"', 1, 7},
-    {'[', 2, 7}, {']', 3, 7}, {'{', 4, 7}, {'}', 5, 7}, {'\'', 6, 7}, {'+', 7, 7}, {'-', 8, 7}, {'~', 9, 7}};
+    {'a', 0, 0}, {'b', 1, 0}, {'c', 2, 0}, {'d', 3, 0}, {'e', 4, 0}, {'f', 5, 0}, {'g', 6, 0}, {'h', 7, 0},
+    {'i', 8, 0}, {'j', 9, 0}, {'k', 0, 1}, {'l', 1, 1}, {'m', 2, 1}, {'n', 3, 1}, {'o', 4, 1}, {'p', 5, 1},
+    {'q', 6, 1}, {'r', 7, 1}, {'s', 8, 1}, {'t', 9, 1}, {'u', 0, 2}, {'v', 1, 2}, {'w', 2, 2}, {'x', 3, 2},
+    {'y', 4, 2}, {'z', 5, 2}, {' ', 6, 2}, {'A', 7, 2}, {'B', 8, 2}, {'C', 9, 2}, {'D', 0, 3}, {'E', 1, 3},
+    {'F', 2, 3}, {'G', 3, 3}, {'H', 4, 3}, {'I', 5, 3}, {'J', 6, 3}, {'K', 7, 3}, {'L', 8, 3}, {'M', 9, 3},
+    {'N', 0, 4}, {'O', 1, 4}, {'P', 2, 4}, {'Q', 3, 4}, {'R', 4, 4}, {'S', 5, 4}, {'T', 6, 4}, {'U', 7, 4},
+    {'V', 8, 4}, {'W', 9, 4}, {'X', 0, 5}, {'Y', 1, 5}, {'Z', 2, 5}, {',', 3, 5}, {'!', 4, 5}, {'@', 5, 5},
+    {'#', 6, 5}, {'$', 7, 5}, {'%', 8, 5}, {'^', 9, 5}, {'&', 0, 6}, {'*', 1, 6}, {'(', 2, 6}, {')', 3, 6},
+    {'<', 4, 6}, {'>', 5, 6}, {'.', 6, 6}, {'?', 7, 6}, {'/', 8, 6}, {';', 9, 6}, {':', 0, 7}, {'\"', 1, 7},
+    {'[', 2, 7}, {']', 3, 7}, {'{', 4, 7}, {'}', 5, 7}, {'\'', 6, 7}, {'+', 7, 7}, {'-', 8, 7}, {'~', 9, 7}
+};
 
 // 存储输入的字符串
 queue<char> inputMessage;
@@ -59,7 +60,7 @@ void createPasscodeFile() {
             if (i % 2 == 0) {
                 temp = rd() % 10;
             } else {
-                temp = rd() % (int)sizeof(mark);
+                temp = rd() % (int) sizeof(mark);
             }
             // 写入文件
             file1 << temp << " ";
@@ -95,7 +96,7 @@ void configThePasscode() {
 }
 
 int IfPosInLetter(char temp) {
-    for (int i = 0; i < (int)code.size(); i++) {
+    for (int i = 0; i < (int) code.size(); i++) {
         if (code[i].letter == temp) {
             return i;
         }
@@ -104,7 +105,7 @@ int IfPosInLetter(char temp) {
 }
 
 int IfPosInMark(char temp) {
-    for (int i = 0; i < (int)sizeof(mark); i++) {
+    for (int i = 0; i < (int) sizeof(mark); i++) {
         if (mark[i] == temp) {
             return i;
         }
@@ -119,14 +120,14 @@ void encode() {
         char temp_letter = inputMessage.front();
         // 主数组删除第一个
         inputMessage.pop();
-        for (auto &i : code) {
+        for (auto &i: code) {
             if (i.letter == temp_letter) {
                 // 打印数字
                 printf("%d", (i.number + passcode.front()) % 10);
                 // 密码数组删除第一个
                 passcode.pop();
                 // 打印字符
-                printf("%c", mark[(i.mark + passcode.front()) % (int)sizeof(mark)]);
+                printf("%c", mark[(i.mark + passcode.front()) % (int) sizeof(mark)]);
                 // 密码数组删除第一个
                 passcode.pop();
                 // 结束查询
@@ -140,16 +141,16 @@ void encode() {
 void decode() {
     while (!inputMessage.empty()) {
         // 主数组录入数字
-        int temp_number = (10 + (int)(inputMessage.front() - '0') - passcode.front()) % 10;
+        int temp_number = (10 + (int) (inputMessage.front() - '0') - passcode.front()) % 10;
         passcode.pop();
         inputMessage.pop();
         // 主数组录入字符
         int tempPosInMark = IfPosInMark(inputMessage.front());
-        int temp_mark = ((int)sizeof(mark) + tempPosInMark - passcode.front()) % (int)sizeof(mark);
+        int temp_mark = ((int) sizeof(mark) + tempPosInMark - passcode.front()) % (int) sizeof(mark);
         passcode.pop();
         inputMessage.pop();
         // 输出原字母
-        for (auto &i : code) {
+        for (auto &i: code) {
             if (temp_number == i.number && temp_mark == i.mark) {
                 printf("%c", i.letter);
             }
@@ -166,7 +167,7 @@ void countAndTransport() {
     int NumOfNumber = 0;
     while (true) {
         // 从输入读取
-        char temp = (char)getchar();
+        char temp = (char) getchar();
         if (temp == '\n') {
             break;
         } else if (IfPosInLetter(temp) != -1) {

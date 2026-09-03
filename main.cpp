@@ -5,10 +5,30 @@
 #include <random>
 #include <vector>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 // 支持的输入长度or生成密钥文件的长度的一半
 #define passcode_length 1000
 
 using namespace std;
+
+void clearConsole() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+void enterToContinue() {
+    printf("按回车键继续...");
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+    }
+    getchar();
+}
 
 const filesystem::path CurrentPath = filesystem::current_path();
 const string CurrentPathString = CurrentPath.string();
@@ -202,8 +222,12 @@ void countAndTransport() {
 }
 
 int main() {
-    system("chcp 65001");
-    system("cls");
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
+
+    clearConsole();
     printf("Copyright (C) 2024-2026 BlazeSnow. 保留所有权利。\n");
     printf("当前程序版本号：v1.0.4\n");
     printf("https://github.com/BlazeSnow/CppWorkspace\n\n");
@@ -240,6 +264,6 @@ int main() {
     } else if (ChooseMode == CreatePasswordFile) {
         createPasscodeFile();
     }
-    system("pause");
+    enterToContinue();
     return 0;
 }
